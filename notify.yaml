@@ -1,0 +1,34 @@
+---
+ - name: Check Notify
+   hosts: server
+   become: yes
+   gather_facts: True
+   vars_files:
+        - pass.yaml
+   tasks:
+   - name: Copy a File
+     copy:
+       src: /etc/hosts
+       dest: /tmp/hosts2
+   - name: Print user info
+     command: "{{ item }}"
+     loop:
+       - pwd
+       - date
+       - echo $HOME
+       - whoami
+     register: command_whoami
+   - debug: var=command_whoami
+   - name: check service
+     service:
+        name: nginx
+        state: started
+     notify:
+        - restart
+   - name: show Debug info
+     debug: msg={{ ansible_distribution_version }}
+   handlers:
+   - name: restart
+     service:
+       name: nginx
+       state: stopped
