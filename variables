@@ -1,0 +1,4 @@
+export ANSIBLE_VAULT_PASSWORD_FILE="/usr2/sivavadd/ANSINEW/pass.txt"
+ansible_become_password=
+ansible_user_pass=
+ansible_user=
